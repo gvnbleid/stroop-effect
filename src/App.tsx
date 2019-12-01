@@ -1,9 +1,26 @@
 import React, { Component } from 'react';
+import { StimulusForm } from './components/StimulusForm';
+import { Stimulus } from './models/stimulus';
 
-class App extends Component {
+interface State {
+  stimulus: Stimulus;
+  stimuli: Stimulus[];
+}
+
+class App extends Component<{}, State> {
+  state = {
+    stimulus: {
+      name: "słoń",
+      color: "czerwony"
+    },
+    stimuli: []
+  };
+
   render() {
     return (
-      <div></div>
+      <div>
+        <StimulusForm stimulus={this.state.stimulus}/>
+      </div>
     );
   };
 }
