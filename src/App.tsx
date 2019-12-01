@@ -11,16 +11,16 @@ class App extends Component<{}, State> {
   state = {
     stimulus: {
       name: "tygrys",
-      color: "czerwony"
+      color: 'blue'
     },
     stimuli: [
       {
         name: "słoń",
-        color: "czerwony"
+        color: 'red'
       },
       {
         name: "zielony",
-        color: "fioletowy"
+        color: 'green'
       }
     ]
   };
@@ -36,11 +36,11 @@ class App extends Component<{}, State> {
       }
 
       return ({
-      stimulus: {
-        name: x.name,
-        color: x.color
-      },
-      stimuli: [...previousState.stimuli]
+        stimulus: {
+          name: x.name,
+          color: x.color
+        },
+        stimuli: [...previousState.stimuli]
       })
     });
   };
