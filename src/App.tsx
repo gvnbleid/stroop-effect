@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StimulusForm } from './components/StimulusForm';
 import { Stimulus } from './models/stimulus';
+import { Stopwatch } from "ts-stopwatch"
 
 interface State {
   stimulus: Stimulus;
@@ -8,6 +9,7 @@ interface State {
 }
 
 class App extends Component<{}, State> {
+  stopwatch = new Stopwatch();
   state = {
     stimulus: {
       name: "tygrys",
@@ -46,9 +48,11 @@ class App extends Component<{}, State> {
   };
 
   render() {
+    this.stopwatch.start();
     return (
       <div>
         <StimulusForm stimulus={this.state.stimulus} onAnswer={this.onAnswer}/>
+        <p>{this.stopwatch.getTime()}</p>
       </div>
     );
   };
