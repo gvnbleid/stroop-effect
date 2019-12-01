@@ -10,16 +10,45 @@ interface State {
 class App extends Component<{}, State> {
   state = {
     stimulus: {
-      name: "słoń",
+      name: "tygrys",
       color: "czerwony"
     },
-    stimuli: []
+    stimuli: [
+      {
+        name: "słoń",
+        color: "czerwony"
+      },
+      {
+        name: "zielony",
+        color: "fioletowy"
+      }
+    ]
+  };
+  
+  private onAnswer = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    this.setState(previousState => {
+      var x = previousState.stimuli.shift();
+      
+      if(x == null) {
+        return;
+      }
+
+      return ({
+      stimulus: {
+        name: x.name,
+        color: x.color
+      },
+      stimuli: [...previousState.stimuli]
+      })
+    });
   };
 
   render() {
     return (
       <div>
-        <StimulusForm stimulus={this.state.stimulus}/>
+        <StimulusForm stimulus={this.state.stimulus} onAnswer={this.onAnswer}/>
       </div>
     );
   };
