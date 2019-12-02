@@ -13,20 +13,30 @@ export const StimulusForm: FunctionComponent<Props> = ({
     stimulus
 }) => {
     const styles = {
-        color: stimulus.color
+        "color": stimulus.color,
+        "text-align": "center"
+    }
+
+    const buttonStyles = {
+        "width": "100%",
+        "height": "100%"
     }
     return (
         <div>
-            <p style={styles}> {stimulus.name}</p>
             <form onSubmit={onAnswer}>
                 <table>
                     <tr>
-                        <td><Button type="submit" variant="contained">czerwony</Button></td>
-                        <td><Button type="submit" variant="contained">zielony</Button></td>
+                        <td colSpan={2}>
+                            <p style={styles}> {stimulus.name}</p>
+                        </td>
                     </tr>
                     <tr>
-                        <td><Button type="submit" variant="contained">niebieski</Button></td>
-                        <td><Button type="submit" variant="contained">fioletowy</Button></td>
+                        <td><Button type="submit" variant="contained" style={buttonStyles}>czerwony</Button></td>
+                        <td><Button type="submit" variant="contained" style={buttonStyles}>zielony</Button></td>
+                    </tr>
+                    <tr>
+                        <td><Button type="submit" variant="contained" style={buttonStyles}>niebieski</Button></td>
+                        <td><Button type="submit" variant="contained" style={buttonStyles}>fioletowy</Button></td>
                     </tr>
                 </table>
             </form>

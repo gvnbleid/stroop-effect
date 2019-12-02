@@ -23,7 +23,39 @@ class App extends Component<{}, State> {
       {
         name: "zielony",
         color: 'green'
-      }
+      },
+      {
+        name: "zielony",
+        color: 'green'
+      },
+      {
+        name: "zielony",
+        color: 'blue'
+      },
+      {
+        name: "czerwony",
+        color: 'red'
+      },
+      {
+        name: "czerwony",
+        color: 'green'
+      },
+      {
+        name: "surykatka",
+        color: 'red'
+      },
+      {
+        name: "surykatka",
+        color: 'purple'
+      },
+      {
+        name: "fioletowy",
+        color: 'purple'
+      },
+      {
+        name: "fioletowy",
+        color: 'green'
+      },
     ]
   };
   
@@ -36,6 +68,8 @@ class App extends Component<{}, State> {
       if(x == null) {
         return;
       }
+
+      this.stopwatch.slice();
 
       return ({
         stimulus: {
@@ -50,9 +84,31 @@ class App extends Component<{}, State> {
   render() {
     this.stopwatch.start();
     return (
-      <div>
-        <StimulusForm stimulus={this.state.stimulus} onAnswer={this.onAnswer}/>
-        <p>{this.stopwatch.getTime()}</p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <table>
+          <tr>
+            <td>
+              <StimulusForm stimulus={this.state.stimulus} onAnswer={this.onAnswer}/>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <ol>
+                {this.stopwatch.getCompletedSlices().map(slice => {
+                  return (<li>{slice.startTime}; {slice.endTime}; {slice.duration}</li>);
+                  })
+                }
+              </ol>
+            </td>
+          </tr>
+        </table>
       </div>
     );
   };
