@@ -4,6 +4,7 @@
 /front/node_modules
 /front/.pnp
 /front/.pnp.js
+/stroop-api/node_modules
 
 # testing
 /front/coverage
