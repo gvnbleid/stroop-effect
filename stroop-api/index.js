@@ -13,21 +13,33 @@ const redis = require("redis");
 
 app.get('/stimuli/getPackage', (req, res) => {
     connect.createConnection(redisPort).then(client => {
-        res.send("The package");
-        console.log(client);
+        const key = "uuid1111"
+        const field = "set_1"
+
+        client.hget(key, field, (err, results) => {
+            if(results){
+                res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+                //res.setHeader('Access-Control-Allow-Methods', 'GET');
+                //res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+                res.setHeader('Content-Type', 'application/json');
+                res.send(results);
+            }else{
+                res.send(err);
+            }
+        })
     })
-});
+})
 
 app.post('/stimuli/addPackage', jsonParser, (req, res) => {
     connect.createConnection(redisPort).then(client => {
-        const package_1 = JSON.stringify(req.body.package_1);
-        const package_2 = JSON.stringify(req.body.package_2);
-        const package_3 = JSON.stringify(req.body.package_3);
+        const set_1 = JSON.stringify(req.body.set_1);
+        const set_2 = JSON.stringify(req.body.set_2);
+        const set_3 = JSON.stringify(req.body.set_3);
         const uuid = req.body.uuid;
 
-        client.hset(uuid, "package_1", package_1, redis.print);
-        client.hset(uuid, "package_2", package_2, redis.print);
-        client.hset(uuid, "package_3", package_3, redis.print);
+        client.hset(uuid, "set_1", set_1, redis.print);
+        client.hset(uuid, "set_2", set_2, redis.print);
+        client.hset(uuid, "set_3", set_3, redis.print);
         client.hgetall(uuid, (err, results) => {
             if(results){
                 res.send(results);
@@ -47,7 +59,7 @@ app.post('/stimuli/addPackage', jsonParser, (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log('Example app listening on port port!');
+    console.log('Example app listening on port ' + port);
 });
 
 //Run app, then load http://localhost:port in a browser to see the output.

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StimulusForm } from './components/StimulusForm';
 import { Stimulus } from './models/stimulus';
 import { Stopwatch } from "ts-stopwatch"
+import * as request from 'request'
 
 interface State {
   stimulus: Stimulus;
@@ -10,6 +11,7 @@ interface State {
 
 class App extends Component<{}, State> {
   stopwatch = new Stopwatch();
+
   state = {
     stimulus: {
       name: "tygrys",
@@ -81,7 +83,22 @@ class App extends Component<{}, State> {
     });
   };
 
-  render() {
+  componentDidMount() {
+    console.log('triggered');
+    request.get('http://localhost:3001/stimuli/getPackage', (request:any, response: any) => {
+      const stimuli : {name: string, color: string}[] = JSON.parse(response.body);
+      console.log(stimuli);
+      this.setState((prevState) => {
+        const stimulus : {name:string, color: string} = stimuli.shift() as {name:string, color: string};
+        return({
+          stimulus: stimulus,
+          stimuli: stimuli
+        });
+      });
+    })
+  }
+
+  render() {   
     this.stopwatch.start();
     return (
       <div
