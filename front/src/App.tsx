@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { StimulusForm } from './components/StimulusForm';
 import { Stimulus } from './models/stimulus';
 import { Stopwatch } from "ts-stopwatch"
+import Button from '@material-ui/core/Button';
 import * as request from 'request'
+import { returnStatement } from '@babel/types';
 
 interface State {
   stimulus: Stimulus;
   stimuli: Stimulus[];
 }
+
+const numberOfSets = 3;
 
 class App extends Component<{}, State> {
   stopwatch = new Stopwatch();
@@ -17,49 +21,12 @@ class App extends Component<{}, State> {
       name: "tygrys",
       color: 'blue'
     },
-    stimuli: [
-      {
-        name: "słoń",
-        color: 'red'
-      },
-      {
-        name: "zielony",
-        color: 'green'
-      },
-      {
-        name: "zielony",
-        color: 'green'
-      },
-      {
-        name: "zielony",
-        color: 'blue'
-      },
-      {
-        name: "czerwony",
-        color: 'red'
-      },
-      {
-        name: "czerwony",
-        color: 'green'
-      },
-      {
-        name: "surykatka",
-        color: 'red'
-      },
-      {
-        name: "surykatka",
-        color: 'purple'
-      },
-      {
-        name: "fioletowy",
-        color: 'purple'
-      },
-      {
-        name: "fioletowy",
-        color: 'green'
-      },
-    ]
+    stimuli: []
   };
+
+  shouldLoadNextSet: boolean = false;
+  testOver: boolean = false;
+  currentSet: number = 0;
   
   private onAnswer = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -68,6 +35,14 @@ class App extends Component<{}, State> {
       var x = previousState.stimuli.shift();
       
       if(x == null) {
+        console.log("set finished");
+        if(this.currentSet < numberOfSets) {
+          this.shouldLoadNextSet = true;
+        } else {
+          this.testOver = true;
+        }
+        
+        this.forceUpdate();
         return;
       }
 
@@ -83,9 +58,8 @@ class App extends Component<{}, State> {
     });
   };
 
-  componentDidMount() {
-    console.log('triggered');
-    request.get('http://localhost:3001/stimuli/getPackage', (request:any, response: any) => {
+  private getSet = (index: number) => {
+    request.get(`http://localhost:3001/stimuli/getPackage?field=${index}`, (request:any, response: any) => {
       const stimuli : {name: string, color: string}[] = JSON.parse(response.body);
       console.log(stimuli);
       this.setState((prevState) => {
@@ -96,9 +70,57 @@ class App extends Component<{}, State> {
         });
       });
     })
+    this.currentSet++;
+  };
+
+  private onClick = () => {
+    this.shouldLoadNextSet = false;
+    this.getSet(this.currentSet);
+  };
+
+  private loadNextSet = () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <p>Zakończyłeś odpowiadanie na zestaw. Kliknij w przycisk aby przejść do następnego zestawu</p>
+        <Button type="submit" variant="contained" text-align="center" onClick={this.onClick}>Następny zestaw</Button>
+      </div>
+    );
+  };
+
+  private finishTest = () => {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <p>Gratulacje, zakończyłeś test!</p>
+      </div>
+    )
+  }
+
+  componentDidMount() {
+    console.log('triggered');
+    this.getSet(this.currentSet);
   }
 
   render() {   
+    if(this.testOver) {
+      return this.finishTest();
+    }
+
+    if(this.shouldLoadNextSet) {
+      return this.loadNextSet();
+
+    }
     this.stopwatch.start();
     return (
       <div

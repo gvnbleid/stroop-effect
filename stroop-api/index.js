@@ -12,9 +12,21 @@ const connect = require('./Connection');
 const redis = require("redis");
 
 app.get('/stimuli/getPackage', (req, res) => {
+    const getField = () => {
+        switch(req.query.field) {
+            case '0':
+                return "set_1";
+            case '1':
+                return "set_2";
+            case '2':
+                return "set_3";
+        }
+    }
     connect.createConnection(redisPort).then(client => {
         const key = "uuid1111"
-        const field = "set_1"
+        const field = getField();
+        console.log('Field: ' + req.query.field);
+        console.log('Field: ' + field);
 
         client.hget(key, field, (err, results) => {
             if(results){
