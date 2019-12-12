@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.7.1",
+    "@mitchallen/react-email-input-field": "^0.1.6",
     "@types/jest": "24.0.23",
     "@types/node": "12.12.14",
     "@types/react": "16.9.13",
@@ -11,7 +12,7 @@
     "@types/request": "^2.48.3",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.2.0",
+    "react-scripts": "^3.3.0",
     "request": "^2.88.0",
     "ts-stopwatch": "0.0.4",
     "typescript": "3.7.2"

@@ -14,17 +14,18 @@ export const StimulusForm: FunctionComponent<Props> = ({
 }) => {
     const styles = {
         "color": stimulus.color,
-        "text-align": "center"
+        "text-align": "center",
+        "font-size": "400%"
     }
 
     const buttonStyles = {
         "width": "100%",
-        "height": "100%"
+        "height": "100%",
     }
     return (
-        <div>
+        <div style={{width: "100%"}}>
             <form onSubmit={onAnswer}>
-                <table>
+                <table style={{width: "100%"}}>
                     <tr>
                         <td colSpan={2}>
                             <p style={styles}> {stimulus.name}</p>
