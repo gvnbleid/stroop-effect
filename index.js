@@ -8,7 +8,7 @@ const app = express();
 
 app.use('*', cors());
 
-const port = 3001;
+const port = proces.env.PORT || 5000;
 const redisPort = 6379;
 
 const connect = require('./Connection');
