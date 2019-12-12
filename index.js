@@ -35,7 +35,6 @@ app.get('/stimuli/getPackage', (req, res) => {
             if(results){
                 console.log(results);
                 res.setHeader('Access-Control-Allow-Origin', 'https://stroop-effect-client.herokuapp.com');
-                res.setHeader('Content-Type', 'application/json');
                 res.send(results);
             }else{
                 console.log(err);
