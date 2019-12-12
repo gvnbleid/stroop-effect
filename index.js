@@ -26,17 +26,19 @@ app.get('/stimuli/getPackage', (req, res) => {
         }
     }
     connect.createConnection(redisPort).then(client => {
-        const key = "uuid1111"
+        const key = "sets"
         const field = getField();
         console.log('Field: ' + req.query.field);
         console.log('Field: ' + field);
 
         client.hget(key, field, (err, results) => {
             if(results){
+                console.log(results);
                 res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
                 res.setHeader('Content-Type', 'application/json');
                 res.send(results);
             }else{
+                console.log(err);
                 res.send(err);
             }
         })
