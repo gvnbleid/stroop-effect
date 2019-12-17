@@ -14,6 +14,40 @@ const redisPort = 6379;
 const connect = require('./Connection');
 const redis = require("redis");
 
+app.get('/stimuli/getOrder', (req, res) => {
+    connect.createConnection(redisPort).then(client => {
+        
+        client.get("order", (err, result) => {
+            if(result) {
+                res.setHeader('Access-Control-Allow-Origin', 'https://stoop-effect-client.herokuapp.com');
+                res.setHeader('Content-Type', 'text/plain');
+                res.send(result);
+
+                if(results == "increasing") {
+                    client.set("order", "decreasing", redis.print);
+                } else {
+                    client.set("order", "increasing", redis.print);
+                }
+            }
+            else {
+                res.send(err);
+            }
+        })
+
+        client.hget(key, field, (err, results) => {
+            if(results){
+                console.log(results);
+                res.setHeader('Access-Control-Allow-Origin', 'https://stoop-effect-client.herokuapp.com');
+                res.setHeader('Content-Type', 'text/plain');
+                res.send(results);
+            }else{
+                console.log(err);
+                res.send(err);
+            }
+        })
+    })
+})
+
 app.get('/stimuli/getPackage', (req, res) => {
     const getField = () => {
         switch(req.query.field) {
