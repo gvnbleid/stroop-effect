@@ -23,25 +23,13 @@ app.get('/stimuli/getOrder', (req, res) => {
                 res.setHeader('Content-Type', 'text/plain');
                 res.send(result);
 
-                if(results == "increasing") {
+                if(result === "increasing") {
                     client.set("order", "decreasing", redis.print);
                 } else {
                     client.set("order", "increasing", redis.print);
                 }
             }
             else {
-                res.send(err);
-            }
-        })
-
-        client.hget(key, field, (err, results) => {
-            if(results){
-                console.log(results);
-                res.setHeader('Access-Control-Allow-Origin', 'https://stoop-effect-client.herokuapp.com');
-                res.setHeader('Content-Type', 'text/plain');
-                res.send(results);
-            }else{
-                console.log(err);
                 res.send(err);
             }
         })
