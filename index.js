@@ -74,10 +74,12 @@ app.post('/answers/addUserData', jsonParser, (req, res) => {
         const set_1 = JSON.stringify(req.body.set_1);
         const set_2 = JSON.stringify(req.body.set_2);
         const set_3 = JSON.stringify(req.body.set_3);
+        const isIncreasing = JSON.stringify(req.body.isIncreasing);
 
         client.hset(uuid, "set_1", set_1, redis.print);
         client.hset(uuid, "set_2", set_2, redis.print);
         client.hset(uuid, "set_3", set_3, redis.print);
+        client.hset(uuid, "isIncreasing", isIncreasing);
         
         client.hgetall(uuid, (err, results) => {
             if(results){
