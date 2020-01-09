@@ -70,17 +70,19 @@ app.get('/stimuli/getPackage', (req, res) => {
 app.get('/answers/allAnswers', (req, res) => {
     console.log(req.query.key);
     connect.createConnection(redisPort).then(client => {
-        console.log('createdConnection');
-        client.hgetall(req.query.key), (err, results) => {
+        console.log('created Connection');
+        client.hgetall(req.query.key, (err, results) => {
+            console.log('got results');
             if(results) {
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.setHeader('Content-Type', 'application/json');
+                console.log('sending results...')
                 res.send(results);
             }else{
                 console.log(err);
                 res.send(err);
             }
-        }
+        });
 
         client.quit((err, reply) => {
             if(!err){
