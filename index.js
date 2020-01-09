@@ -67,6 +67,21 @@ app.get('/stimuli/getPackage', (req, res) => {
     })
 })
 
+app.get('/answers/allAnswers', (req, res) => {
+    connect.createConnection(redisPort).then(client => {
+        client.hgetall(req.query.key), (err, res) => {
+            if(results) {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('Content-Type', 'application/json');
+                res.send(results);
+            }else{
+                console.log(err);
+                res.send(err);
+            }
+        }
+    })
+})
+
 app.post('/answers/addUserData', jsonParser, (req, res) => {
     connect.createConnection(redisPort).then(client => {
         const uuid = uuidv4();
